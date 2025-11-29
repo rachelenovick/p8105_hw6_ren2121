@@ -4,4 +4,26 @@ output: github_document
 date: "2025-11-29"
 ---
 
+```{r}
+library(tidyverse)
+```
+
+
+## Problem 1
+
+Reading in the dataset from github:
+
+```{r}
+url = "https://raw.githubusercontent.com/washingtonpost/data-homicides/master/homicide-data.csv"
+
+homicides = read_csv(url)
+```
+
+
+
+
+
+
+
+
 
