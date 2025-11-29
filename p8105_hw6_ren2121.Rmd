@@ -19,6 +19,19 @@ url = "https://raw.githubusercontent.com/washingtonpost/data-homicides/master/ho
 homicides = read_csv(url)
 ```
 
+Creating a city_state variable, and a binary variable indicating whether the homicide is solved.
+
+```{r}
+homicides =
+  homicides |> 
+  mutate(
+    city_state = paste(city, state, sep = ", "),
+    solved = case_when(
+      disposition %in% c("Closed without arrest", "Open/No arrest") ~ 0,
+      disposition == "Closed by arrest" ~ 1
+  ))
+```
+
 
 
 
