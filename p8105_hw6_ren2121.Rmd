@@ -7,6 +7,7 @@ date: "2025-11-29"
 ```{r}
 library(tidyverse)
 library(p8105.datasets)
+library(modelr)
 ```
 
 
@@ -109,5 +110,37 @@ city_or_results |>
 
 In the majority of cities, the odds of a homicide being solved is lower for male victims compared to female victims, adjusting for age and race. In New York, NY, male victims have the lowest odds relative to female victims of a homicide being solved. In Albuquerque, NM, male victims have the greatest odds compared to female victims of a homicide being solved, followed by Stockton, CA, then Fresno, CA.
 
+## Problem 2
+
+Reading in the weather dataset.
+
+```{r}
+data("weather_df")
+```
+
+Bootstrapping 5000 samples and producing quantile estimates.
+
+```{r}
+
+set.seed(123)
+
+bootstrap_results =
+  weather_df |> 
+  bootstrap(n = 5000) |> 
+  mutate(
+    df = map(strap, as_tibble),
+    fits = map(df, \(df) lm(tmax ~ tmin + prcp, data = df)),
+    r2 = map(fits, \(mod) broom::glance(mod) |> pull(r.squared)),
+    beta_ratio = map(fits, \(mod) {
+      broom::tidy(mod) |> 
+        filter(term %in% c("tmin", "prcp")) |> 
+        summarize(ratio = estimate[term == "tmin"] / estimate[term == "prcp"]) |> 
+        pull(ratio)
+    })
+  ) |> 
+  select(.id, r2, beta_ratio) |> 
+  unnest(cols = c(r2, beta_ratio))
+
+```
 
 
