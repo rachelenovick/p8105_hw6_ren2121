@@ -106,7 +106,7 @@ city_or_results |>
 
 ```
 
-
+In the majority of cities, the odds of a homicide being solved is lower for male victims compared to female victims, adjusting for age and race. In New York, NY, male victims have the lowest odds relative to female victims of a homicide being solved. In Albuquerque, NM, male victims have the greatest odds compared to female victims of a homicide being solved, followed by Stockton, CA, then Fresno, CA.
 
 
 
