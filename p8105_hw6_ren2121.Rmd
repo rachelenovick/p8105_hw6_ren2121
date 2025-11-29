@@ -6,6 +6,7 @@ date: "2025-11-29"
 
 ```{r}
 library(tidyverse)
+library(p8105.datasets)
 ```
 
 
