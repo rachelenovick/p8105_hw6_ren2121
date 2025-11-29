@@ -19,7 +19,7 @@ url = "https://raw.githubusercontent.com/washingtonpost/data-homicides/master/ho
 homicides = read_csv(url)
 ```
 
-Creating a city_state variable, and a binary variable indicating whether the homicide is solved.
+Creating a city_state variable, and a binary variable indicating whether the homicide is solved. Omitting cities that do not report victim race, limiting the analysis by race, and converting age to a numeric variable.
 
 ```{r}
 homicides =
@@ -29,7 +29,14 @@ homicides =
     solved = case_when(
       disposition %in% c("Closed without arrest", "Open/No arrest") ~ 0,
       disposition == "Closed by arrest" ~ 1
-  ))
+    ),
+    victim_age = parse_number(as.character(victim_age))
+  ) |> 
+  filter(
+    !city_state %in% c("Dallas, TX", "Phoenix, AZ", "Kansas City, MO", "Tulsa, AL"),
+    victim_race %in% c("White", "Black")
+    )
+  
 ```
 
 
