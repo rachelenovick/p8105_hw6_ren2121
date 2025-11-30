@@ -223,8 +223,31 @@ weight_df =
 
 *Proposing a regression model*
 
+I propose that baby birth weight is based on the following variables: gestational age, maternal characteristics (including age, height, pre-pregnancy BMI, weight gain during pregnancy, and smoking), and baby sex. I chose these predictors because they are factors known to influence birth weight based on biological plausibility and prior research. I included these variables as continuous predictors other than baby sex, which was included as a two-level factor variable.
 
+I decided to include these variables which are commonly associated with baby birth weight, excluding other potential predictor variables to avoid overfitting the model and keep the model interpretable. 
 
+```{r}
+bw_model =
+  lm(bwt ~ gaweeks + babysex + momage + mheight + ppbmi + wtgain + smoken, weight_df)
+```
+
+Plotting the model residuals against fitted values.
+
+```{r}
+weight_df |> 
+  add_predictions(bw_model) |> 
+  add_residuals(bw_model) |> 
+  ggplot(aes(x = pred, y = resid)) +
+  geom_point(alpha = 0.5) +
+  labs(
+    x = "Fitted values",
+    y = "Residuals",
+    title = "Residuals vs Fitted Values (Birthweight Model)"
+  )
+```
+
+Most of the data points seem to lie between approximately 2500g and 3500g, and residuals seems to mostly lie between -1000g and 1000g. There does not seem to be a major problem with heteroskedasticity based on the plot of residuals vs. fitted values.
 
 
 
